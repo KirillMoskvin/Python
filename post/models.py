@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.encoding import smart_text
+
 
 # Create your models here.
 class Post(models.Model):
@@ -9,6 +11,10 @@ class Post(models.Model):
     post_text = models.TextField()
     post_date = models.DateTimeField()
     post_likes = models.IntegerField(default=0)
+    def _unicode_(self): 
+    	return self.post_text
+
+
 
 class Comments(models.Model):
     class Meta():
