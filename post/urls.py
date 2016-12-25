@@ -17,5 +17,5 @@ from django.conf.urls import url
 from post import views
 
 urlpatterns = [
-    url(r'^1/', views.basic_one, name='basic_one'),
+    #url(r'^1/', views.basic_one, name='basic_one'),
 ]

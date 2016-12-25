@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Стена</title>
+</head>
+<body>
+
+{% for post in posts %}
+	<h2>{{post.post_title}}</h4>
+	<p>{{post.post_text}}</p>
+	<p>Поравилось {{post.post_likes}} людям</p>
+	<h6>Дата публикации: {{post.post_date}}</h6>
+	<hr>
+{% endfor %}
+
+</body>
+</html>
