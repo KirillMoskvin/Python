@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^basicview/1', basic_one),
     url(r'^basicview/2', template_two),
     url(r'^basicview/3', template_three_simple),
-    url(r'^articles/all/$', posts)
+    url(r'^posts/all/$', posts),
+    url(r'^', posts)
 ]

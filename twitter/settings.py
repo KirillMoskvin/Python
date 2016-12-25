@@ -55,7 +55,8 @@ ROOT_URLCONF = 'twitter.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/mj/djangoenv/bin/twitter/templates' ],
+        'DIRS': ['/home/mj/djangoenv/bin/twitter/templates',
+         '/home/mj/djangoenv/bin/twitter/post/templates/' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,6 +1,10 @@
-{% extends 'main.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Стена</title>
+</head>
+<body>
 
-{% block post %}
 {% for post in posts %}
 	<h2>{{post.post_title}}</h4>
 	<p>{{post.post_text}}</p>
@@ -8,4 +12,6 @@
 	<h6>Дата публикации: {{post.post_date}}</h6>
 	<hr>
 {% endfor %}
-{% endblock %}
+
+</body>
+</html>
