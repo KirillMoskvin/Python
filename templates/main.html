@@ -1,11 +1,15 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Django</title>
+	<link rel="stylesheet" type="text/css" href="{% static "main.css" %}">
 </head>
 <body>
 <h1>Блогостенотвиттерообразное приложение</h1>
+<div class="row">
 {% block post %}
 {% endblock %}
+</div>
 </body>
 </html>
