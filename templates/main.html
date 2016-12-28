@@ -6,9 +6,22 @@
 	<link rel="stylesheet" type="text/css" href="{% static "main.css" %}">
 </head>
 <body>
-<h1>Блогостенотвиттерообразное приложение</h1>
+<div class="top-bar">
+    <section class="top-bar-section">
+        <ul class="right">
+            {% if user.username %}
+                <li><a href="/auth/logout/">Выйти ({{ user.username }})</a> </li>
+            {% else %}
+                <li><a href="/auth/login/">Войти</a></li>
+            {% endif %}
+        </ul>
+    </section>
+</div>
+<h1><a href="/">Блогостенотвиттерообразное приложение</a></h1>
 <div class="row">
 {% block post %}
+{% endblock %}
+{% block login %}
 {% endblock %}
 </div>
 </body>

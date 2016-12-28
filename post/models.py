@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.encoding import smart_text
 
@@ -8,7 +9,7 @@ class Post(models.Model):
         db_table = "post"
 
     post_title = models.CharField(max_length = 200)
-    post_text = models.TextField()
+    post_text = models.TextField(verbose_name="Текст поста")
     post_date = models.DateTimeField()
     post_likes = models.IntegerField(default=0)
     def _unicode_(self): 

@@ -16,16 +16,20 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 import post
-from post.views import basic_one,template_two, template_three_simple, posts, addlike
+from post.views import posts, addlike, addpost
+from loginsys.views import login, logout, register
 
-urlpatterns = [
+urlpatterns = (
+    url(r'^auth/login', login),
+    url(r'^auth/logout/', logout),
+    url(r'^auth/register/', register),
     url(r'^admin/', admin.site.urls),
-    url(r'^basicview/1', basic_one),
-    url(r'^basicview/2', template_two),
-    url(r'^basicview/3', template_three_simple),
+
     url(r'^posts/all/$', post.views.posts),
     url(r'^posts/addlike/(?P<post_id>\d+)/$', post.views.addlike),
     url(r'^posts/addlike/', post.views.addlike),
+    url(r'^posts/addpost/', addpost),
+
     url(r'^', posts),
 
-]
+)

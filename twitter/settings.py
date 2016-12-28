@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'post',
+    'loginsys',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR+ '/templates',
-         BASE_DIR + '/post/templates/' ],
+         BASE_DIR + '/post/templates/' ,
+         BASE_DIR + '/loginsys/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
