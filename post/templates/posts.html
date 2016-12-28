@@ -2,24 +2,28 @@
 {% load staticfiles %}
 
 
-{% block post %}
 
+{% block post %}
 {% if user.username %}
-    <form action="/posts/addpost/" method="post">
-        {% csrf_token %}
-        {{ post_form }}
-        <input type="submit" class="button" value="Добавить пост">
-    </form>
+    <h2>Стена {{ target_user.username }}</h2>
+    {% if user.id == target_user.id %}
+        <form action="/posts/addpost/" method="post">
+            {% csrf_token %}
+            {{ post_form }}
+            <input type="submit" class="button" value="Добавить пост">
+        </form>
+    {% endif %}
 {% endif %}
 {% for post in posts %}
-	<h2>{{post.post_title}}</h2>
-	<p>{{post.post_text}}</p>
-	<p>
-		<a href="/posts/addlike/{{post.id}}/">
-			<img src="{%static "plus.png" %}" width="20px" height="20px"> {{post.post_likes}}
-		</a>
-	</p>
-	<h6>Дата публикации: {{post.post_date}}</h6>
-	<hr>
+    {% if post.post_author_id == target_user.id %}
+        <p>{{post.post_text}}</p>
+        <p>
+            <a href="/posts/addlike/{{post.id}}/">
+                <img src="{%static "plus.png" %}" width="20px" height="20px"> {{post.post_likes}}
+            </a>
+        </p>
+        <h6>Опубликовано: {{post.post_date}} {{ post.post_author.username}}</h6>
+        <hr>
+    {% endif %}
 {% endfor %}
 {% endblock %}
