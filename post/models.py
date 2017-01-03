@@ -13,7 +13,9 @@ class Post(models.Model):
     post_date = models.DateTimeField()
     post_likes = models.IntegerField(default=0)
     post_author = models.ForeignKey(User, default=1)
-    def _unicode_(self): 
+    def __unicode__(self):
+    	return self.post_text
+    def __str__(self):
     	return self.post_text
 
 
@@ -25,3 +27,11 @@ class Comments(models.Model):
     comments_text = models.TextField()
     comments_article = models.ForeignKey(Post)
 
+
+class Profile(models.Model):
+    class Meta:
+        db_table = 'user_profile'
+
+    profile_user = models.OneToOneField(User)
+    profile_likes = models.ManyToManyField(Post)
+    profile_subscribes = models.ForeignKey('self')

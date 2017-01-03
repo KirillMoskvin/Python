@@ -20,7 +20,8 @@
         <p>
             <form action="/posts/addlike/{{post.id}}/">
                 {% csrf_token %}
-                <input type="image" src="{%static "plus.png" %}" width="20px" height="20px"> {{post.post_likes}}
+                <input type="image" src="{%static "plus.png" %}" width="20px" height="20px" content="">
+                {{post.post_likes}}
             </form>
         </p>
         <h6>Опубликовано: {{post.post_date}} {{ post.post_author.username}}</h6>
