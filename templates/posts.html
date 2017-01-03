@@ -18,9 +18,10 @@
     {% if post.post_author_id == target_user.id %}
         <p>{{post.post_text}}</p>
         <p>
-            <a href="/posts/addlike/{{post.id}}/">
-                <img src="{%static "plus.png" %}" width="20px" height="20px"> {{post.post_likes}}
-            </a>
+            <form action="/posts/addlike/{{post.id}}/">
+                {% csrf_token %}
+                <input type="image" src="{%static "plus.png" %}" width="20px" height="20px"> {{post.post_likes}}
+            </form>
         </p>
         <h6>Опубликовано: {{post.post_date}} {{ post.post_author.username}}</h6>
         <hr>
