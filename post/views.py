@@ -50,14 +50,14 @@ def addpost(request):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.post_date=datetime.datetime.now()
-            post.post_author_id=request.user.id
+            post.post_date = datetime.datetime.now()
+            post.post_author_id = request.user.id
             form.save()
     return redirect('/posts')
 
 
 def indexusers(request):
-    args = {'users': User.objects.all()}
+    args = {'users': User.objects.all(), 'user': auth.get_user(request)}
     return render_to_response('indexusers.html', args)
 
 
@@ -68,3 +68,6 @@ def getuserwall(request, user_id):
         args['post_form'] = PostForm()
     args.update(csrf(request))
     return render_to_response('posts.html', args)
+
+def qqq(request):
+    return render_to_response('header.html')

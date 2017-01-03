@@ -17,12 +17,16 @@
             {% endif %}
         </ul>
     </section>
+
 </div>
 <h1><a href="/">Блогостенотвиттерообразное приложение</a></h1>
 <div class="row">
+{% block article %} {% endblock %}
 {% block post %}
 {% endblock %}
 {% block login %}
+{% endblock %}
+{% block indexusers %}
 {% endblock %}
 </div>
 </body>
