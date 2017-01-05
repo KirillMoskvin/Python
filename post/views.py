@@ -16,10 +16,10 @@ import datetime
 # Create your views here.
 
 def auth_required(function):
-    def check_auth(request):
+    def check_auth(request, *args, **kwargs):
         if not request.user.is_authenticated():
             return HttpResponseRedirect('/auth/login/')
-        return function(request)
+        return function(request, *args, **kwargs)
 
     return check_auth
 
@@ -85,6 +85,25 @@ def getuserwall(request, user_id):
         raise Http404
 
 
+# добавление подписки
+@auth_required
+def add_subscribe(request, user_id):
+    try:
+        user = auth.get_user(request)
+        current_profile = Profile.objects.get(profile_user=user)
+        if user_id != user.id:
+            user_to_sub = Profile.objects.get(profile_user=User.objects.get(id=user_id))
+            if user_to_sub in current_profile.profile_subscribes.all():
+                current_profile.profile_subscribes.remove(user_to_sub)
+            else:
+                current_profile.profile_subscribes.add(user_to_sub)
+            current_profile.save()
+    except ObjectDoesNotExist:
+        raise Http404
+    return redirect('/user/'+str(user_id)+'/')
+
+
+# debug
 def init_profiles(request):
     for user in User.objects.all():
         user_profile = Profile(profile_user=user)
@@ -92,6 +111,7 @@ def init_profiles(request):
     return HttpResponse('success')
 
 
+# debug
 def reset_likes(request):
     for post in Post.objects.all():
         post.post_likes = 0
