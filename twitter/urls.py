@@ -18,9 +18,9 @@ from django.contrib import admin
 import post
 from post.views import posts, addlike, addpost
 from loginsys.views import login, logout, register
-from post.views import indexusers, getuserwall, qqq
+from post.views import indexusers, getuserwall, init_profiles, reset_likes
 
-urlpatterns = (
+urlpatterns = [
     url(r'^auth/login', login),
     url(r'^auth/logout/', logout),
     url(r'^auth/register/', register),
@@ -33,7 +33,9 @@ urlpatterns = (
     url(r'^users/all/', indexusers),
     url(r'^user/(?P<user_id>\d+)/$', getuserwall),
 
-    url(r'^qqq/', qqq),
-    url(r'^', posts),
+    url(r'^init_profiles/', init_profiles), #######################
+    url(r'^reset_likes/', reset_likes),  #######################
 
-)
+
+    url(r'^', posts),
+]

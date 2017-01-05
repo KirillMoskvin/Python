@@ -6,18 +6,19 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Post(models.Model):
-    class Meta():
+    class Meta:
         db_table = "post"
 
     post_text = models.TextField(verbose_name="Текст поста")
     post_date = models.DateTimeField()
     post_likes = models.IntegerField(default=0)
     post_author = models.ForeignKey(User, default=1)
-    def __unicode__(self):
-    	return self.post_text
-    def __str__(self):
-    	return self.post_text
 
+    def __unicode__(self):
+        return self.post_text
+
+    def __str__(self):
+        return self.post_text
 
 
 class Comments(models.Model):
@@ -34,4 +35,11 @@ class Profile(models.Model):
 
     profile_user = models.OneToOneField(User)
     profile_likes = models.ManyToManyField(Post)
-    profile_subscribes = models.ForeignKey('self')
+    profile_subscribes = models.ManyToManyField('self', symmetrical=False)
+
+    def __str__(self):
+        return self.profile_user.username + "'s profile"
+
+    @property
+    def __unicode__(self):
+        return self.profile_user.username + "'s profile"
