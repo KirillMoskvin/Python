@@ -15,18 +15,22 @@ import datetime
 
 # Create your views here.
 
+# декоратор для проверки на авторизацию
 def auth_required(function):
     def check_auth(request, *args, **kwargs):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated(): #если пользователь не авторизован, отправляем его регистрироваться
             return HttpResponseRedirect('/auth/login/')
         return function(request, *args, **kwargs)
 
     return check_auth
 
 
+# старый индекс, не используется
 def posts(request):
-    args = {'posts': Post.objects.all().order_by('-post_date'), 'post_form': PostForm,
-            'user': auth.get_user(request), 'target_user': auth.get_user(request)}
+    args = {'posts': Post.objects.all().order_by('-post_date'),  # посты, отсортированные по убыванию даты
+            'post_form': PostForm,  # форма для поста
+            'user': auth.get_user(request),  # авторизованный юзер
+            'target_user': auth.get_user(request)}
     args.update(csrf(request))
     return render_to_response('posts.html', args)
 
@@ -35,22 +39,24 @@ def posts_of_user(request, user_id):
     return render_to_response('posts.html', {'posts': Post.objects.filter(post_id=user_id)})
 
 
+# добавление лайка
 def addlike(request, post_id):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/auth/login/')
     try:
-        post = Post.objects.get(id=post_id)
-        profile = Profile.objects.get(profile_user=auth.get_user(request))
-        if post in profile.profile_likes.all():
-            post.post_likes -= 1
-            profile.profile_likes.remove(post)
-            profile.save()
-            post.save()
-        else:
-            post.post_likes += 1
-            profile.profile_likes.add(post)
-            post.save()
-            profile.save()
+        if request.POST:
+            post = Post.objects.get(id=post_id) # ищем нужный пост
+            profile = Profile.objects.get(profile_user=auth.get_user(request))  # ищем профиль юзера
+            if post in profile.profile_likes.all():  # если лайк уже есть, снимаем его
+                post.post_likes -= 1
+                profile.profile_likes.remove(post)
+                profile.save()
+                post.save()
+            else:  # иначе ставим
+                post.post_likes += 1
+                profile.profile_likes.add(post)
+                post.save()
+                profile.save()
     except ObjectDoesNotExist:
         raise Http404
     return redirect('/user/' + str(Post.objects.get(id=post_id).post_author_id) + '/')
@@ -59,8 +65,8 @@ def addlike(request, post_id):
 @auth_required
 def addpost(request):
     if request.POST:
-        form = PostForm(request.POST)
-        if form.is_valid():
+        form = PostForm(request.POST)  # вытаскиваем форму из запроса
+        if form.is_valid():  # если данные валидны, сохраняем пост
             post = form.save(commit=False)
             post.post_date = datetime.datetime.now()
             post.post_author_id = request.user.id
@@ -68,22 +74,27 @@ def addpost(request):
     return redirect('/posts')
 
 
+#  список всех юзеров
 def indexusers(request):
     args = {'users': User.objects.all(), 'user': auth.get_user(request)}
     return render_to_response('indexusers.html', args)
 
 
+# индекс
 def getuserwall(request, user_id):
     try:
-        args = {'target_user': User.objects.get(id=user_id), 'posts': Post.objects.all().order_by('-post_date'),
-                'user': auth.get_user(request)}
-        if args['target_user'].id == args['user'].id:
-            args['post_form'] = PostForm()
+        args = {'target_user': User.objects.get(id=user_id),  # на чьей странице
+                'posts': Post.objects.all().order_by('-post_date'),  # посты, отсортированные по дате
+                'user': auth.get_user(request)  # кто зарегистрирован
+                }
+        if args['target_user'].id == args['user'].id:  # если на своей странице,
+            args['post_form'] = PostForm()    # добавляем форму для поста
+        # если подписаны на текущего бзера
         if Profile.objects.get(profile_user=args['target_user']) in Profile.objects.get(profile_user=args['user']).profile_subscribes.all():
-            args['subscribed']=True
+            args['subscribed'] = True
         else:
-            args['subscribed']=False
-
+            args['subscribed'] = False
+        # безопасность типа
         args.update(csrf(request))
         return render_to_response('posts.html', args)
     except ObjectDoesNotExist:
@@ -95,10 +106,10 @@ def getuserwall(request, user_id):
 def add_subscribe(request, user_id):
     try:
         user = auth.get_user(request)
-        current_profile = Profile.objects.get(profile_user=user)
+        current_profile = Profile.objects.get(profile_user=user)  # профиль тек. юзера
         if user_id != user.id:
-            user_to_sub = Profile.objects.get(profile_user=User.objects.get(id=user_id))
-            if user_to_sub in current_profile.profile_subscribes.all():
+            user_to_sub = Profile.objects.get(profile_user=User.objects.get(id=user_id))  # на кого подписываемся
+            if user_to_sub in current_profile.profile_subscribes.all():  # если уже подписаны, то отписываемся
                 current_profile.profile_subscribes.remove(user_to_sub)
             else:
                 current_profile.profile_subscribes.add(user_to_sub)
@@ -108,7 +119,7 @@ def add_subscribe(request, user_id):
     return redirect('/user/'+str(user_id)+'/')
 
 
-# debug
+# debug, создание профилей
 def init_profiles(request):
     for user in User.objects.all():
         user_profile = Profile(profile_user=user)
@@ -116,7 +127,7 @@ def init_profiles(request):
     return HttpResponse('success')
 
 
-# debug
+# debug, обнуление всех лайков
 def reset_likes(request):
     for post in Post.objects.all():
         post.post_likes = 0
