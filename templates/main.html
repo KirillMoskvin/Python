@@ -12,6 +12,7 @@
             {% if user.username %}
                 <li><a href="/auth/logout/">Выйти ({{ user.username }})</a> </li>
                 <li><a href="/users/all/">Все пользователи</a></li>
+                <li><a href="/feed/">Новости</a></li>
             {% else %}
                 <li><a href="/auth/login/">Войти</a></li>
             {% endif %}
@@ -27,6 +28,8 @@
 {% block login %}
 {% endblock %}
 {% block indexusers %}
+{% endblock %}
+{% block feed %}
 {% endblock %}
 </div>
 </body>

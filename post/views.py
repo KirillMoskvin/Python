@@ -119,6 +119,20 @@ def add_subscribe(request, user_id):
     return redirect('/user/'+str(user_id)+'/')
 
 
+# новостная лента пользователя
+@auth_required
+def feed(request):
+    profile = Profile.objects.get(profile_user=auth.get_user(request))  # чей фид
+    # ищем посты тех, на кого подписаны
+    all_subscribes = profile.profile_subscribes.all()
+    subscribes = []
+    for sub in all_subscribes:
+        subscribes.append(sub.profile_user)
+
+    user_feed = Post.objects.filter(post_author__in=subscribes).order_by('-post_date')
+    return render_to_response('feed.html', {'user_feed': user_feed})
+
+
 # debug, создание профилей
 def init_profiles(request):
     for user in User.objects.all():
