@@ -84,14 +84,16 @@ def getuserwall(request, user_id):
     except ObjectDoesNotExist:
         raise Http404
 
+
 def init_profiles(request):
     for user in User.objects.all():
         user_profile = Profile(profile_user=user)
         user_profile.save()
-    return render('aaaa')
+    return HttpResponse('success')
+
 
 def reset_likes(request):
     for post in Post.objects.all():
-        post.post_likes=0
+        post.post_likes = 0
         post.save()
     return redirect('/')

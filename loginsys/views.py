@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, redirect, HttpResponse
 from django.contrib import auth
 from django.template.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
+from post.models import Profile
 
 
 def login(request):
@@ -40,6 +41,8 @@ def register(request):
             newuser_form.save()
             newuser = auth.authenticate(username=newuser_form.cleaned_data['username'],
                                         password=newuser_form.cleaned_data['password2'])
+            newuser_profile = Profile(profile_user=newuser)
+            newuser_profile.save()
             auth.login(request, newuser)
             return redirect('/')
         else:
