@@ -12,6 +12,15 @@
             {{ post_form }}
             <input type="submit" class="button" value="Добавить пост">
         </form>
+    {% else %}
+        <form action="/add_subscribe/{{ target_user.id }}/" method="post">
+        {% csrf_token %}
+                {% if subscribed  %}
+                    <input type="submit" value="Отписаться">
+                {% else %}
+                    <input type="submit" value="Подписаться">
+                {% endif %}
+        </form>
     {% endif %}
 {% endif %}
 {% for post in posts %}

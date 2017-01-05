@@ -79,6 +79,11 @@ def getuserwall(request, user_id):
                 'user': auth.get_user(request)}
         if args['target_user'].id == args['user'].id:
             args['post_form'] = PostForm()
+        if Profile.objects.get(profile_user=args['target_user']) in Profile.objects.get(profile_user=args['user']).profile_subscribes.all():
+            args['subscribed']=True
+        else:
+            args['subscribed']=False
+
         args.update(csrf(request))
         return render_to_response('posts.html', args)
     except ObjectDoesNotExist:
