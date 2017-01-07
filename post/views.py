@@ -6,6 +6,7 @@ from django.template.loader import get_template
 from django.template.context_processors import csrf
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.template import RequestContext
 
 from post.forms import PostForm
 from post.models import Post, Profile
@@ -59,7 +60,10 @@ def addlike(request, post_id):
                 profile.save()
     except ObjectDoesNotExist:
         raise Http404
-    return redirect('/user/' + str(Post.objects.get(id=post_id).post_author_id) + '/')
+    c = {}
+    c.update(csrf(request))
+    #return redirect(request.META['HTTP_REFERER'], c)
+    return redirect('/user/' + str(Post.objects.get(id=post_id).post_author_id) + '/', RequestContext(request, {}))
 
 
 @auth_required
@@ -129,8 +133,9 @@ def feed(request):
     for sub in all_subscribes:
         subscribes.append(sub.profile_user)
 
-    user_feed = Post.objects.filter(post_author__in=subscribes).order_by('-post_date')
-    return render_to_response('feed.html', {'user_feed': user_feed})
+    args = {'user_feed': Post.objects.filter(post_author__in=subscribes).order_by('-post_date'),
+            'user': auth.get_user(request)}
+    return render_to_response('feed.html', args)
 
 
 # debug, создание профилей

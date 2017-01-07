@@ -27,7 +27,7 @@
     {% if post.post_author_id == target_user.id %}
         <p>{{post.post_text}}</p>
         <p>
-            <form action="/posts/addlike/{{post.id}}/">
+            <form action="/posts/addlike/{{post.id}}/" method="post">
                 {% csrf_token %}
                 <input type="image" src="{%static "plus.png" %}" width="20px" height="20px" content="">
                 {{post.post_likes}}

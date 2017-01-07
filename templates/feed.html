@@ -8,15 +8,15 @@
 {% for post in user_feed %}
     <p>{{post.post_text}}</p>
     <p>
-        <form action="/posts/addlike/{{post.id}}/">
-            {% csrf_token %}
-            <input type="image" src="{%static "plus.png" %}" width="20px" height="20px" content="">
-            {{post.post_likes}}
+        <form action="/posts/addlike/{{post.id}}/" method="post">
+                {% csrf_token %}
+                <input type="image" src="{%static "plus.png" %}" width="20px" height="20px" content="">
+                {{post.post_likes}}
         </form>
     </p>
     <h6>
         Опубликовано: {{post.post_date}}
-        <a href="/users/{{ post.post_author.id }}/" >{{ post.post_author.username}}</a>
+        <a href="/user/{{ post.post_author.id }}/" >{{ post.post_author.username}}</a>
     </h6>
     <hr>
 {% endfor %}
