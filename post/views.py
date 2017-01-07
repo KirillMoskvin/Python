@@ -62,8 +62,8 @@ def addlike(request, post_id):
         raise Http404
     c = {}
     c.update(csrf(request))
-    #return redirect(request.META['HTTP_REFERER'], c)
-    return redirect('/user/' + str(Post.objects.get(id=post_id).post_author_id) + '/', RequestContext(request, {}))
+    return redirect(request.META['HTTP_REFERER'])
+    #return redirect('/user/' + str(Post.objects.get(id=post_id).post_author_id) + '/', RequestContext(request, {}))
 
 
 @auth_required
