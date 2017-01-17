@@ -6,3 +6,13 @@ p {
 	width: 960px;
 	margin: auto;
 }
+
+.registerform label {
+	display: inline;
+	padding: 10px;
+}
+
+.registerform label:before {
+	content:"\a\a";
+    white-space: pre;
+}
