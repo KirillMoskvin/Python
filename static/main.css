@@ -9,7 +9,15 @@ p {
 
 .registerform label {
 	display: inline;
-	padding: 10px;
+	padding-right: 10px;
+}
+
+.inputfield {
+	padding-bottom: 10px;
+}
+
+.inputfield label {
+	padding-right: 10px;
 }
 
 .registerform label:before {

@@ -5,20 +5,22 @@
         <form action="/auth/login/" method="post">
             {% csrf_token %}
 
-                <div>
-                    <label for="username">Имя пользователя</label>
+                <div class="inputfield">
+                    <label for="username">Имя пользователя:</label>
                     <input type="text" name="username" id="username" placeholder="Имя пользователя...">
                 </div>
-                <div>
-                    <label for="password">Пароль</label>
+                <div class="inputfield">
+                    <label for="password">Пароль:</label>
                     <input type="password" name="password" id="password">
                 </div>
 
-            <input type="submit"  value="Войти">
-            <div class="regbutton"><a href="/auth/register/">Регистрация</a></div>
+            <input type="submit" value="Войти">
             {% if login_error %}
                 <label class="errors">{{ login_error }}</label>
             {% endif %}
+            <br><br>
+            <div class="regbutton"><a href="/auth/register/">Регистрация</a></div>
+
         </form>
     </div>
 {% endblock %}
