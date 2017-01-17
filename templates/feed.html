@@ -6,7 +6,8 @@
 {% block feed %}
     <h3>Новости: </h3>
 {% for post in user_feed %}
-    <p>{{post.post_text}}</p>
+    <hr align="left" width="62%">
+    <h5>{{post.post_text}}</h5>
     <p>
         <form action="/posts/addlike/{{post.id}}/" method="post">
                 {% csrf_token %}
@@ -14,10 +15,9 @@
                 {{post.post_likes}}
         </form>
     </p>
-    <h6>
+    <h7>
         Опубликовано: {{post.post_date}}
         <a href="/user/{{ post.post_author.id }}/" >{{ post.post_author.username}}</a>
-    </h6>
-    <hr>
+    </h7>
 {% endfor %}
 {% endblock %}

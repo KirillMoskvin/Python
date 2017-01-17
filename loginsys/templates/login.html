@@ -4,10 +4,16 @@
     <div class="authform">
         <form action="/auth/login/" method="post">
             {% csrf_token %}
-            <label for="username">Имя пользователя</label>
-            <input type="text" name="username" id="username" placeholder="Имя пользователя...">
-            <label for="password">Пароль</label>
-            <input type="password" name="password" id="password">
+
+                <div>
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" name="username" id="username" placeholder="Имя пользователя...">
+                </div>
+                <div>
+                    <label for="password">Пароль</label>
+                    <input type="password" name="password" id="password">
+                </div>
+
             <input type="submit"  value="Войти">
             <div class="regbutton"><a href="/auth/register/">Регистрация</a></div>
             {% if login_error %}

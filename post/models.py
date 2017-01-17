@@ -9,7 +9,7 @@ class Post(models.Model):
     class Meta:
         db_table = "post"
 
-    post_text = models.TextField(verbose_name="Текст поста")
+    post_text = models.TextField(verbose_name="")
     post_date = models.DateTimeField()
     post_likes = models.IntegerField(default=0)
     post_author = models.ForeignKey(User, default=1)

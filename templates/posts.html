@@ -1,18 +1,24 @@
 {% extends 'main.html' %}
 {% load staticfiles %}
 
-
-
 {% block post %}
 {% if user.username %}
-    <h2>Стена {{ target_user.username }}</h2>
+    <hr align="left" width="62%">
     {% if user.id == target_user.id %}
-        <form action="/posts/addpost/" method="post">
-            {% csrf_token %}
-            {{ post_form }}
-            <input type="submit" class="button" value="Добавить пост">
+        <h3>Ваша стена</h3>
+        <hr align="left" width="62%">
+        <div class="container">
+            <form action="/posts/addpost/" method="post">
+                {% csrf_token %}
+                {{ post_form }}
+                <div>
+                    <input type="submit" class="button" value="Добавить пост">
+                </div>
         </form>
+        </div>
     {% else %}
+        <h3>Стена пользователя {{ target_user.username }}</h3>
+        <hr align="left" width="62%">
         <form action="/add_subscribe/{{ target_user.id }}/" method="post">
         {% csrf_token %}
                 {% if subscribed  %}
@@ -23,9 +29,11 @@
         </form>
     {% endif %}
 {% endif %}
+
 {% for post in posts %}
     {% if post.post_author_id == target_user.id %}
-        <p>{{post.post_text}}</p>
+        <hr align="left" width="62%">
+        <h5>{{post.post_text}}</h5>
         <p>
             <form action="/posts/addlike/{{post.id}}/" method="post">
                 {% csrf_token %}
@@ -33,8 +41,8 @@
                 {{post.post_likes}}
             </form>
         </p>
-        <h6>Опубликовано: {{post.post_date}} {{ post.post_author.username}}</h6>
-        <hr>
+        <h7>Опубликовано: {{post.post_date}} {{ post.post_author.username}}</h7>
+
     {% endif %}
 {% endfor %}
 {% endblock %}
